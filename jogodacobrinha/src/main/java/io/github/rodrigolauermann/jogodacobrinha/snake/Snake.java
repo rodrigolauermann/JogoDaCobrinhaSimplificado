@@ -11,7 +11,9 @@ public class Snake{
     private Queue<Coordenada> listaCoord; //x é baixo/cima y é esq/direita
     private Coordenada cabeca; //ultima da queue //ex. remove varias vezes e vai ser a ultima //lembrar que cabeca é apenas referencia
     private Coordenada cabecaAnterior;
+    //private char lastMoviment;
     private Board board;
+    private Moviment lastMoviment;
 
     public Snake(){
         listaCoord = new LinkedList<>();
@@ -32,19 +34,44 @@ public class Snake{
         }
     }
 
+    public void pegaMoviment(Scanner input){
+        //verificar antes de colocar em lastMoviment
+        lastMoviment = Moviment.A;
+        
+    }
+
+    public Moviment getLastMoviment() {
+        return lastMoviment;
+    }
+
+    /* 
+    public int permissaoMovimento(){
+        //cabeca = listaCoord.peek(); //ve e armazena em cabeca qual foi a ultima coordenada adicionada
+        switch (ca) {
+            case value:
+                
+                break;
+        
+            default:
+                break;
+        }
+        //w s a d 
+        //tem que ver o contrario:
+        //se foi w entao nao pode w e s
+        //se foi s nao pode s e w
+        //se foi a nao pode a e d
+        //se foi d nao pode d e a
+        return 0;
+    }
+    */
+
     public void par(Scanner input){
-        String tecla;
+        //String tecla;
         boolean verifica = false;
 
         while(verifica == false){
             System.out.println("Digite a tecla: ");
-            tecla = input.nextLine();
-
-            
-            cabeca = listaCoord.peek(); //ve e armazena em cabeca qual foi a ultima coordenada adicionada
-            cabecaAnterior.setX(cabeca.getX());
-            cabecaAnterior.setY(cabeca.getY());
-
+            //tecla = input.nextLine();
 
             switch (tecla) {
                 case "w":
@@ -98,3 +125,9 @@ public class Snake{
     }
     
 }
+
+/*
+
+    cabecaAnterior.setX(cabeca.getX());
+    cabecaAnterior.setY(cabeca.getY());
+*/
