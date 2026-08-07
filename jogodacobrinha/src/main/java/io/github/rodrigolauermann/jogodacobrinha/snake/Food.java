@@ -7,6 +7,7 @@ public class Food {
 
     public Food(){
         rand = new Random();
+        seed = new Coordenada();
         geraSeed();
     }
 

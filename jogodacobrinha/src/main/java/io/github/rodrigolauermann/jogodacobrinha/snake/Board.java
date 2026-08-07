@@ -28,6 +28,18 @@ public class Board {
         }
     }
 
+    public void imprimeBoard(){
+        for(int i=0; i<altura; i++){
+            for(int j=0; j<largura; j++){
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
     //metodo que imprime board
+
+    public void alteraPonto(Food food){
+        board[food.getSeed().getX()][food.getSeed().getY()] = 'A';
+    }
     
 }

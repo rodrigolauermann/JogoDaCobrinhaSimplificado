@@ -4,11 +4,6 @@ public class Coordenada {
     private int x;
     private int y;
 
-    public Coordenada(){
-        this.x=0;
-        this.y=0;
-    }
-
     public int getX() {
         return x;
     }
