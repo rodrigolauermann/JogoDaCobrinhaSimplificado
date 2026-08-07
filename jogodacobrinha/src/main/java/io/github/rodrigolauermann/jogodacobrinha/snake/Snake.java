@@ -10,7 +10,7 @@ public class Snake{
     private int tamanhoAtual;
     private Queue<Coordenada> listaCoord; //x é baixo/cima y é esq/direita
     private Coordenada cabeca; //ultima da queue //ex. remove varias vezes e vai ser a ultima //lembrar que cabeca é apenas referencia
-    private Coordenada cabecaAnterior;
+    //private Coordenada cabecaAnterior;
     //private char lastMoviment;
     private Board board;
     private Moviment lastMoviment;
@@ -65,6 +65,7 @@ public class Snake{
     }
     */
 
+    /* 
     public void par(Scanner input){
         //String tecla;
         boolean verifica = false;
@@ -107,6 +108,7 @@ public class Snake{
                 }
         }
     }
+    */
 
     public Coordenada getCabeca() {
         return cabeca;
