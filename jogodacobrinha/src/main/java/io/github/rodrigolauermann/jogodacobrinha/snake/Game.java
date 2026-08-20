@@ -9,51 +9,42 @@ public class Game {
     private Food food;
     private Board board;
     private Snake snake;
-    private Timer time;
-    private TimerTask task;
 
-    
     public Game(){
         board = new Board();
         snake = new Snake(board);
         food = new Food(board, snake);
     }
 
-    public void moveCobraTempo(){
-
-        Scanner input = new Scanner(System.in);
+    public void moveCobraTempo(Scanner input){
 
         Timer timer = new Timer();
 
         TimerTask task = new TimerTask() {
 
-            int segundos = 10;
-
             @Override
             public void run(){
-
-                System.out.println(segundos);
-                if(segundos == 0){
-                    System.out.println("Tempo esgotado!");
+                if(gameOver() == true){
+                    System.out.println("GAME OVER!");
                     timer.cancel();
                 }
-                segundos--;
+                board.imprimeBoard();
+                snake.executaMovimento(input, food, board, snake);
             }
         };
 
         timer.scheduleAtFixedRate(task, 0, 1000);
-        snake.permissaoMovimento();
-        Moviment novoMoviment = snake.getLastMoviment();
-        snake.changeLastMoviment(input);
-        snake.moveCobra();
     }
 
-    public void rodaJogo(){
-
-        board.alteraPonto(food);
-        board.alteraPontos(snake);
-        
-        board.imprimeBoard();
-        
+    public boolean gameOver(){
+        //se a cobra bate em si mesma ou se sai do mapa
+        if(snake.getCabeca().getX()>board.getLargura()||snake.getCabeca().getY()>board.getLargura()){
+            return true;
+        }
+        return false;
+    }
+    
+    public void rodaJogo(Scanner input){
+        moveCobraTempo(input);
     }
 }

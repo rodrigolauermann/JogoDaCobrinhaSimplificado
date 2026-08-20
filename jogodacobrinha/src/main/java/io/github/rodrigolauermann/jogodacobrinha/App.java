@@ -1,5 +1,7 @@
 package io.github.rodrigolauermann.jogodacobrinha;
-//import io.github.rodrigolauermann.jogodacobrinha.snake.Game;
+import java.util.Scanner;
+
+import io.github.rodrigolauermann.jogodacobrinha.snake.Game;
 
 /**
  * Hello world!
@@ -8,7 +10,8 @@ package io.github.rodrigolauermann.jogodacobrinha;
 public class App 
 {
     public static void main( String[] args ){
-        //Game game = new Game();
-        //game.rodaJogo();
+        Scanner input = new Scanner(System.in);
+        Game game = new Game();
+        game.rodaJogo(input);
     }
 }

@@ -43,9 +43,10 @@ public class Board {
     }
 
     public void alteraPontos(Snake snake){
+        //sem isso a cobra so cresce
+        preencheBoard();
         for(Coordenada elem : snake.getposicoesCoord()){
             board[elem.getY()][elem.getX()] = '0';
         }
     }
-    
 }
