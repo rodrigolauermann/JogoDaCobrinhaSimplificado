@@ -5,5 +5,4 @@ public enum Moviment{
     A,
     S,
     D
-
 }

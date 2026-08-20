@@ -1,5 +1,5 @@
 package io.github.rodrigolauermann.jogodacobrinha;
-import io.github.rodrigolauermann.jogodacobrinha.snake.Game;
+//import io.github.rodrigolauermann.jogodacobrinha.snake.Game;
 
 /**
  * Hello world!
@@ -8,7 +8,7 @@ import io.github.rodrigolauermann.jogodacobrinha.snake.Game;
 public class App 
 {
     public static void main( String[] args ){
-        Game game = new Game();
-        game.rodaJogo();
+        //Game game = new Game();
+        //game.rodaJogo();
     }
 }

@@ -1,8 +1,8 @@
 package io.github.rodrigolauermann.jogodacobrinha.snake;
 
 public class Board {
-    private final int altura;
-    private final int largura;
+    private final int altura; //y
+    private final int largura; //x
     private char [][] board;
 
     public Board(){
@@ -39,7 +39,13 @@ public class Board {
     //metodo que imprime board
 
     public void alteraPonto(Food food){
-        board[food.getSeed().getX()][food.getSeed().getY()] = 'A';
+        board[food.getSeed().getY()][food.getSeed().getX()] = 'M';
+    }
+
+    public void alteraPontos(Snake snake){
+        for(Coordenada elem : snake.getposicoesCoord()){
+            board[elem.getY()][elem.getX()] = '0';
+        }
     }
     
 }
