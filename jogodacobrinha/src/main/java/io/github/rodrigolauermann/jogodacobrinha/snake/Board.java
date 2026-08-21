@@ -42,9 +42,10 @@ public class Board {
         board[food.getSeed().getY()][food.getSeed().getX()] = 'M';
     }
 
-    public void alteraPontos(Snake snake){
+    public void alteraPontos(Snake snake, Food food){
         //sem isso a cobra so cresce
         preencheBoard();
+        alteraPonto(food);
         for(Coordenada elem : snake.getposicoesCoord()){
             board[elem.getY()][elem.getX()] = '0';
         }

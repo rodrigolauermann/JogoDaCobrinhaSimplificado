@@ -11,7 +11,7 @@ public class Food {
         //geraSeed(board, snake);
     }
 
-    public void geraSeed(Board board, Snake snake, Food food){
+    public void geraSeed(Board board, Snake snake){
         boolean posicaoInvalida = false;
 
         seed.setX(rand.nextInt(15)); 
@@ -31,14 +31,15 @@ public class Food {
                     break; 
                 }
             }
-            if(posicaoInvalida==true){
-                    seed.setX(rand.nextInt(15)); 
-                    seed.setY(rand.nextInt(15));
-            }
+
             if(posicaoInvalida==false){
                 break;
             }
         }
+    }
+
+    public void executaSeed(Board board, Snake snake, Food food){
+        geraSeed(board, snake);
         board.alteraPonto(food);
     }
 

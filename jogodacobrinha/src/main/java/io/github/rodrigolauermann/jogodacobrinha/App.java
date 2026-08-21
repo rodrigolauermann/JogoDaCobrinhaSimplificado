@@ -13,5 +13,14 @@ public class App
         Scanner input = new Scanner(System.in);
         Game game = new Game();
         game.rodaJogo(input);
+        
     }
 }
+
+/*
+        char [][] abacate = new char [1][1];
+        System.out.println(abacate.length);
+        abacate[0][0] = 'a';
+        System.out.println(abacate[0][0]);/*
+
+*/
