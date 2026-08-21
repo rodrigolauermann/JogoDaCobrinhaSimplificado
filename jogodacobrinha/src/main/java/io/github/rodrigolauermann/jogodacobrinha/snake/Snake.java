@@ -1,16 +1,17 @@
 package io.github.rodrigolauermann.jogodacobrinha.snake;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 import java.util.Deque;
 import java.util.LinkedList;
 
 public class Snake{
     
-    private int tamanhoAtual;
+    //private int tamanhoAtual;
     private Deque<Coordenada> listaCorpo; //x é baixo/cima y é esq/direita
-    private Coordenada cabeca; //ultima da queue //ex. remove varias vezes e vai ser a ultima //lembrar que cabeca é apenas referencia
+    private Coordenada cauda; //ultima da queue //ex. remove varias vezes e vai ser a ultima //lembrar que cauda é apenas referencia
     private Moviment lastMoviment;
     private Moviment listaPermissaoMovimento[];
+    //private Coordenada cabeca; //foi a primeira adicionada
 
     public Snake(Board board){
         listaCorpo = new LinkedList<>();
@@ -30,23 +31,26 @@ public class Snake{
             coordenada.setX(i);
             coordenada.setY(alturaInicial);
             listaCorpo.add(coordenada);
-            cabeca = coordenada;
-            tamanhoAtual++;
+            cauda = coordenada;
+
+            //tamanhoAtual++;
         }
         lastMoviment = Moviment.W;
     }
 
     //movimento da cobra pelo input do usuario
-    public Moviment changeLastMoviment(Scanner input){
+    public Moviment changeLastMoviment(String move){
         //verificar antes de colocar em lastMoviment
-        String move = " ";
-        Moviment novoMoviment = lastMoviment;
+        //String move = " ";
+        //Moviment novoMoviment = lastMoviment;
 
         permissaoMovimento();
 
-        while(lastMoviment.equals(novoMoviment)){
-            //o usuario insere uma direcao: A W S D 
-            move = input.nextLine();
+        //aterei para if, porque se o cara nao inserir corretamente nada ocorre de mudanca de movimento
+        //while(lastMoviment.equals(novoMoviment)){
+
+        //o usuario insere uma direcao: A W S D 
+            //move = input.nextLine();
 
             if(move.toUpperCase().equals("A")){
                 for (Moviment permitedMov : listaPermissaoMovimento) {
@@ -55,28 +59,28 @@ public class Snake{
                     }
                 }
             }
-            else if(move.toUpperCase().equals("W")){
+            if(move.toUpperCase().equals("W")){
                 for (Moviment permitedMov : listaPermissaoMovimento) {
                     if(permitedMov.equals(Moviment.W)){
                         lastMoviment = Moviment.W;
                     }
                 }
             }
-            else if(move.toUpperCase().equals("S")){
+            if(move.toUpperCase().equals("S")){
                 for (Moviment permitedMov : listaPermissaoMovimento) {
                     if(permitedMov.equals(Moviment.S)){
                         lastMoviment = Moviment.S;
                     }
                 }
             }
-            else if(move.toUpperCase().equals("D")){
+            if(move.toUpperCase().equals("D")){
                 for (Moviment permitedMov : listaPermissaoMovimento) {
                     if(permitedMov.equals(Moviment.D)){
                         lastMoviment = Moviment.D;
                     }
                 }
             } 
-        }
+        
         return lastMoviment;
     }
 
@@ -108,70 +112,95 @@ public class Snake{
         }
     }
 
-    //pegaMovimento vai passar o ultimo movimento. Com base nele, alteramos a lista (corpo cobra) e atualizamos a referência para cabeca
+    public void executaMovimento(String input, Food food, Board board, Snake snake){
+        board.alteraPontos(snake, food);
+
+        permissaoMovimento();
+
+        changeLastMoviment(input);
+        
+        moveCobra(food, board, snake);
+    }
+
+    //pegaMovimento vai passar o ultimo movimento. Com base nele, alteramos a lista (corpo cobra) e atualizamos a referência para cauda
 
     //permissoesMovimento -> changeLastMoviment -> moveCobra
 
-    public void moveCobra(){
+    public void moveCobra(Food food, Board board, Snake snake){
 
-        boolean verifica = false;
+        //boolean verifica = false;
         Coordenada newCoordinate = new Coordenada();
 
-        while(verifica == false){
+        boolean engordaCobra = engordaCobra(food, board, snake);
+        //while(verifica == false){
             switch (lastMoviment) {
                 case W:
-                    listaCorpo.poll(); //remove o primeiro
-                    newCoordinate.setX(cabeca.getX());
-                    newCoordinate.setY(cabeca.getY()+1);
+                    if(engordaCobra==false){listaCorpo.poll();} //remove o primeiro
+                    newCoordinate.setX(cauda.getX());
+                    newCoordinate.setY(cauda.getY()-1);//                    newCoordinate.setY(cauda.getY()+1);
 
-                    cabeca = newCoordinate;
+                    cauda = newCoordinate;
 
                     listaCorpo.add(newCoordinate);//basicamente add first remove last
-                    verifica = true;
+                    //verifica = true;
                     break;
             
                 case S:
-                    listaCorpo.poll(); //remove o primeiro
-                    newCoordinate.setX(cabeca.getX());
-                    newCoordinate.setY(cabeca.getY()-1);
+                    if(engordaCobra==false){listaCorpo.poll();} //remove o primeiro
+                    newCoordinate.setX(cauda.getX());
+                    newCoordinate.setY(cauda.getY()+1); //                    newCoordinate.setY(cauda.getY()-1);
 
-                    cabeca = newCoordinate;
+                    cauda = newCoordinate;
 
                     listaCorpo.add(newCoordinate);//basicamente add first remove last                
-                    verifica = true;
+                    //verifica = true;
                     break;
 
                 case A:
-                    listaCorpo.poll(); //remove o primeiro
-                    newCoordinate.setX(cabeca.getX()-1);
-                    newCoordinate.setY(cabeca.getY());
+                    if(engordaCobra==false){listaCorpo.poll();} //remove o primeiro
+                    newCoordinate.setX(cauda.getX()-1);
+                    newCoordinate.setY(cauda.getY());
 
-                    cabeca = newCoordinate;
+                    cauda = newCoordinate;
 
                     listaCorpo.add(newCoordinate);
-                    verifica = true;
+                    //verifica = true;
                     break;
 
                 case D:
-                    listaCorpo.poll(); //remove o primeiro
-                    newCoordinate.setX(cabeca.getX()+1);
-                    newCoordinate.setY(cabeca.getY());
+                    if(engordaCobra==false){listaCorpo.poll();} //remove o primeiro
+                    newCoordinate.setX(cauda.getX()+1);
+                    newCoordinate.setY(cauda.getY());
 
-                    cabeca = newCoordinate;
+                    cauda = newCoordinate;
 
                     listaCorpo.add(newCoordinate);
-                    verifica = true;
+                    //verifica = true;
                     break;
 
                 default:
                     break;
             }
+        //}
+    }
+
+    public boolean engordaCobra(Food food, Board board, Snake snake){
+        //quando a cobra come a food, tem que gerar outra  //chamar a funcao de gerar seed obrigatoriamente ccria uma semente em uma posicao livre
+        if(getCabeca().equals(food.getSeed())){
+            food.geraSeed(board, snake);
+            board.alteraPonto(food);
+            return true;
         }
+        return false;
     }
 
     //retorna ultimo da lista e não head (que é o início)
-    public Coordenada getCabeca() { 
-        return cabeca;
+    public Coordenada getcauda() { 
+        return cauda;
+    }
+
+    public Coordenada getCabeca(){
+        return getposicoesCoord().getFirst();
     }
 
     public Deque<Coordenada> getposicoesCoord(){
@@ -179,16 +208,20 @@ public class Snake{
     }
 
     //funciona isso?
-    public String posicoesCobra(){
-        return listaCorpo.toString();
-    }
+    //public String posicoesCobra(){
+    //    return listaCorpo.toString();
+    //}
 
+    /*
     public int getTamanhoAtual() {
         return tamanhoAtual;
     }
+    */
 
-    public void cresce(){ //talvez nao precise
-        tamanhoAtual++;
+    public void cresce(Food food){ //talvez nao precise
+        if(cauda.equals(food.getSeed())){
+
+        }
     }
     
 }

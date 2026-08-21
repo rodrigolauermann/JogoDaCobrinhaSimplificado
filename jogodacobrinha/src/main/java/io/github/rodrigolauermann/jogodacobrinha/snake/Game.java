@@ -9,10 +9,8 @@ public class Game {
     private Food food;
     private Board board;
     private Snake snake;
-    private Timer time;
-    private TimerTask task;
+    private String direcao = "d";
 
-    
     public Game(){
         board = new Board();
         snake = new Snake(board);
@@ -21,39 +19,55 @@ public class Game {
 
     public void moveCobraTempo(){
 
-        Scanner input = new Scanner(System.in);
-
         Timer timer = new Timer();
 
         TimerTask task = new TimerTask() {
 
-            int segundos = 10;
-
             @Override
             public void run(){
+                
+                snake.executaMovimento(direcao, food, board, snake);
+                board.imprimeBoard();
+                System.out.println("\n\n\n");
 
-                System.out.println(segundos);
-                if(segundos == 0){
-                    System.out.println("Tempo esgotado!");
+                if(gameOver() == true){
+                    System.out.println("GAME OVER!");
                     timer.cancel();
-                }
-                segundos--;
+                    return; // evita imprimir o board depois do game over
+                }     
             }
         };
 
         timer.scheduleAtFixedRate(task, 0, 1000);
-        snake.permissaoMovimento();
-        Moviment novoMoviment = snake.getLastMoviment();
-        snake.changeLastMoviment(input);
-        snake.moveCobra();
     }
 
-    public void rodaJogo(){
+    public boolean gameOver(){
+        //se a cobra bate em si mesma ou se sai do mapa
+        if(snake.getcauda().getX()==board.getLargura()||snake.getcauda().getY()==board.getLargura()||snake.getcauda().getX()<0||snake.getcauda().getY()<0){
+            return true;
+        }
+        return false;
+    }
 
-        board.alteraPonto(food);
-        board.alteraPontos(snake);
+    public void lerInputContinuo(Scanner input){
         
-        board.imprimeBoard();
-        
+        String tecla = "";
+
+        while(true){
+            tecla = input.nextLine();
+            //usar switch case
+            switch (tecla) {
+                case "w": direcao = "w"; break;  
+                case "s": direcao = "s"; break; 
+                case "a": direcao = "a"; break;  
+                case "d": direcao = "d"; break;  
+            }
+        }
+    }
+
+    public void rodaJogo(Scanner input){
+        food.executaSeed(board, snake, food);
+        moveCobraTempo();
+        lerInputContinuo(input);
     }
 }
