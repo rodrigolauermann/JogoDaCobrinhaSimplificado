@@ -3,47 +3,45 @@ import java.util.Random;
 
 public class Food {
     private Random rand;
-    private Coordenada seed;
+    private Coordinate seed;
 
     public Food(Board board, Snake snake){
         rand = new Random();
-        seed = new Coordenada();
-        //geraSeed(board, snake);
+        seed = new Coordinate();
     }
 
-    public void geraSeed(Board board, Snake snake){
-        boolean posicaoInvalida = false;
+    public void generateSeed(Board board, Snake snake){
+        boolean invalidPosition = false;
 
         seed.setX(rand.nextInt(15)); 
         seed.setY(rand.nextInt(15));
 
-        //gera onde nao houver a snake e ainda dentro do board
+        //altera a coordenada da seed dentro do board para uma posicao na qual a snake nao esta  
 
         while(true){
-            posicaoInvalida = false;
-            for(Coordenada coord : snake.getposicoesCoord()){
+            invalidPosition = false;
+            for(Coordinate coord : snake.getPositionsCoord()){
                 if(seed.equals(coord)){
                     seed.setX(rand.nextInt(15)); 
                     seed.setY(rand.nextInt(15));
-                    posicaoInvalida = true;
+                    invalidPosition = true;
                     
-                    //break: sai do for
                     break; 
                 }
             }
 
-            if(posicaoInvalida==false){
+            if(invalidPosition==false){
                 break;
             }
         }
     }
 
-    public void executaSeed(Board board, Snake snake, Food food){
-        geraSeed(board, snake);
-        board.alteraPonto(food);
+    public void executeSeed(Board board, Snake snake, Food food){
+        generateSeed(board, snake);
+        board.changePoint(food);
     }
 
-    public Coordenada getSeed() {
+    public Coordinate getSeed() {
         return seed;
     }
 }
