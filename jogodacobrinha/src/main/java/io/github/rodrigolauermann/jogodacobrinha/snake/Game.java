@@ -28,12 +28,13 @@ public class Game {
                 
                 snake.executaMovimento(direcao, food, board, snake);
                 board.imprimeBoard();
-                System.out.println("\n\n\n");
+                System.out.printf("%n%n%n%n");
 
                 if(gameOver() == true){
-                    System.out.println("GAME OVER!");
+                    System.out.println("WASTED!");
+                    System.out.printf("%nJogo finalizado...%n%nDigite:%n%n1. '1' para reiniciar %n2. Escreva: 'sair' para encerrar jogo%n%n");            
                     timer.cancel();
-                    return; // evita imprimir o board depois do game over
+                    return;
                 }     
             }
         };
@@ -43,7 +44,15 @@ public class Game {
 
     public boolean gameOver(){
         //se a cobra bate em si mesma ou se sai do mapa
-        if(snake.getcauda().getX()==board.getLargura()||snake.getcauda().getY()==board.getLargura()||snake.getcauda().getX()<0||snake.getcauda().getY()<0){
+        for (Coordenada corpo : snake.getposicoesCoord()) {
+            if(corpo == snake.getCabeca()){ //compara obejtos
+                break;
+            }
+            if(snake.getCabeca().getX()==corpo.getX() && snake.getCabeca().getY()==corpo.getY()){ //compara numeros
+                return true;
+            }
+        }
+        if(snake.getCabeca().getX()==board.getLargura()||snake.getCabeca().getY()==board.getLargura()||snake.getCabeca().getX()<0||snake.getCabeca().getY()<0){
             return true;
         }
         return false;
@@ -56,12 +65,25 @@ public class Game {
         while(true){
             tecla = input.nextLine();
             //usar switch case
+
             switch (tecla) {
                 case "w": direcao = "w"; break;  
                 case "s": direcao = "s"; break; 
                 case "a": direcao = "a"; break;  
                 case "d": direcao = "d"; break;  
-            }
+                case "sair": 
+                          System.out.printf("%nEncerrando...%n");
+                          return;
+                case "1": board = new Board();
+                          snake = new Snake(board);
+                          food = new Food(board, snake);
+                          direcao = "d";
+                          System.out.printf("%n%nNovo jogo iniciado! (digite qualquer tecla para continuar jogando)%n%n");
+                          food.executaSeed(board, snake, food); //repete o processo, mas sem c
+                          moveCobraTempo(); // reinicia o timer, sem empilhar novo loop
+                          //rodaJogo(input); //se usar novamente, empilha chamaria lerInputContinuo de novo sem fechar chamada anterior
+                          break;
+            } 
         }
     }
 
